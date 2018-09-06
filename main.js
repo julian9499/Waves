@@ -17,7 +17,10 @@ function setup(){
   for(var i = 0; i < cols; i++){
     terrain[i] = []
   }
-  stroke(255);
+  noStroke();
+  ambientLight(200);
+  directionalLight(255,255,255,140,1,5,-7)
+  //stroke(0);
 
 
 
@@ -27,8 +30,8 @@ function setup(){
 
 
 function draw() {
-  background(0);
-  ambientMaterial(0,0,200);
+  background(200);
+  //ambientMaterial(0,0,200);
 
   //noFill();
 
@@ -48,17 +51,26 @@ function draw() {
   }
 
   push();
+  ambientMaterial(180, 50, 0);
   translate(width/2, height/2, terrain[cols/2][rows/2]+ 20);
   box(20, 20, 40);
   pop();
 
+push();
   for(var y = 0; y < rows; y++){
-    beginShape(TRIANGLE_STRIP);
-    for(var x = 0; x < cols; x++){
+    for(var x = 0; x < cols-1; x++){
+      specularMaterial(0,100, 150);
+      //ambientMaterial(0,100, 150);
+      beginShape(TRIANGLES);
       vertex(x*scale,y*scale, terrain[x][y]);
       vertex(x*scale,(y+1)*scale, terrain[x][y+1]);
-    }
-    endShape();
-  }
+      vertex((x+1)*scale,y*scale, terrain[x+1][y]);
 
+      vertex((x+1)*scale,(y+1)*scale, terrain[x+1][y+1]);
+      vertex(x*scale,(y+1)*scale, terrain[x][y+1]);
+      vertex((x+1)*scale,y*scale, terrain[x+1][y]);
+      endShape();
+    }
+  }
+pop();
 }
